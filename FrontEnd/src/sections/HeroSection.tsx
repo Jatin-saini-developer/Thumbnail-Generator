@@ -5,9 +5,9 @@ import { motion } from "motion/react";
 
 export default function HeroSection() {
     const specialFeatures = [
-        "No credit card",
-        "30 days free trial",
-        "Setup in 10 minutes",
+        "No Design Skills Nedeed",
+        "Fast generation",
+        "Higher CTR Templates",
     ];
 
     return (
@@ -23,7 +23,7 @@ export default function HeroSection() {
                     NEW
                 </span>
                 <p className="flex items-center gap-1">
-                    <span>Try 30 days free trial option </span>
+                    <span>Generate Your First Free Thumbnail  </span>
                     <ChevronRightIcon size={16} className="group-hover:translate-x-0.5 transition duration-300" />
                 </p>
             </motion.a>
@@ -33,8 +33,8 @@ export default function HeroSection() {
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 240, damping: 70, mass: 1 }}
             >
-                Free template to start your{" "}
-                <span className="move-gradient px-3 rounded-xl text-nowrap">Next.js site.</span>
+                AI Thumbnail Generator For Your{" "}
+                <span className="move-gradient px-3 rounded-xl text-nowrap">Videos</span>
             </motion.h1>
             <motion.p className="text-base text-center text-slate-200 max-w-lg mt-6"
                 initial={{ y: 50, opacity: 0 }}
@@ -42,7 +42,7 @@ export default function HeroSection() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 320, damping: 70, mass: 1 }}
             >
-                No complexity. No noise. Just clean, reliable automation to boost your team’s efficiency.</motion.p>
+               Stop Wasting Hours on Design, Get high Converting Thumbnails in seconds with our Advanced AI</motion.p>
             <motion.div className="flex items-center gap-4 mt-8"
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -50,11 +50,11 @@ export default function HeroSection() {
                 transition={{ type: "spring", stiffness: 320, damping: 70, mass: 1 }}
             >
                 <button className="bg-pink-600 hover:bg-pink-700 text-white rounded-full px-7 h-11">
-                    Get started
+                   Generate Now
                 </button>
                 <button className="flex items-center gap-2 border border-pink-900 hover:bg-pink-950/50 transition rounded-full px-6 h-11">
                     <VideoIcon strokeWidth={1} />
-                    <span>Watch demo</span>
+                    <span>See how it works</span>
                 </button>
             </motion.div>
 
