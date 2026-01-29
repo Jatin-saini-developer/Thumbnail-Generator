@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import "./globals.css";
 import LenisScroll from "./components/LenisScroll";
 import Login from "./components/Login"
+import GeneratePage from "./pages/GeneratePage";
 
 export default function App() {
     return (
@@ -14,6 +15,8 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/Generate" element={<GeneratePage />} />
+
 
             </Routes>
             <Footer />

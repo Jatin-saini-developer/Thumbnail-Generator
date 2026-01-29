@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 export default function PricingSection() {
     return (
         <div id="pricing" className="px-4 md:px-16 lg:px-24 xl:px-32">
-            <SectionTitle text1="Pricing" text2="Our Pricing Plans" text3="Flexible pricing options designed to meet your needs — whether you're just getting started or scaling up." />
+            <SectionTitle text1="Pricing" text2="Simple Pricing" text3="Flexible pricing options designed to meet your needs — whether you're just getting started or scaling up." />
 
             <div className="flex flex-wrap items-center justify-center gap-8 mt-20">
                 {pricingData.map((plan: IPricing, index: number) => (
@@ -32,7 +32,7 @@ export default function PricingSection() {
                             ))}
                         </ul>
                         <button type="button" className={`w-full py-2.5 rounded-md font-medium mt-7 transition-all ${plan.mostPopular ? 'bg-white text-pink-600 hover:bg-slate-200' : 'bg-pink-500 hover:bg-pink-600'}`}>
-                            Get Started
+                            Buy Now
                         </button>
                     </motion.div>
                 ))}
