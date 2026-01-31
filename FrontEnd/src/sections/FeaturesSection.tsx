@@ -19,7 +19,7 @@ export default function FeaturesSection() {
             key={index}
             className={`${
               index === 1
-                ? "p-px rounded-[13px] bg-linear-to-br from-pink-600 to-slate-800"
+                ? "p-px rounded-[13px] bg-linear-to-br from-blue-600 to-slate-800"
                 : ""
             }`}
             initial={{ y: 150, opacity: 0 }}

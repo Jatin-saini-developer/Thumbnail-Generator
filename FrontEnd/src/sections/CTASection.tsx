@@ -12,7 +12,7 @@ export default function CTASection() {
     >
       <div>
         <motion.h1
-          className="text-4xl md:text-[46px] md:leading-15 font-semibold bg-linear-to-r from-white to-pink-400 text-transparent bg-clip-text"
+          className="text-4xl md:text-[46px] md:leading-15 font-semibold bg-linear-to-r from-white to-blue-400 text-transparent bg-clip-text"
           initial={{ y: 80, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}

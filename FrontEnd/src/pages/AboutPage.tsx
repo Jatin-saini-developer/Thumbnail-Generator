@@ -38,7 +38,7 @@ const AboutPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
           >
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">ThumbnailGo</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">PromtToThumb</span>
           </motion.h1>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -58,16 +58,16 @@ const AboutPage = () => {
             className="space-y-6 text-neutral-400 text-lg leading-relaxed"
           >
             <p>
-              <span className="text-white font-medium">ThumbnailGo</span> is an AI-powered platform built to help creators design eye-catching, high-converting YouTube thumbnails in seconds - without needing advanced design skills.
+              <span className="text-white font-medium">PromtToThumb</span> is an AI-powered platform built to help creators design eye-catching, high-converting YouTube thumbnails in seconds - without needing advanced design skills.
             </p>
             <p>
-              In today's crowded creator economy, first impressions decide everything. A strong thumbnail can be the difference between getting ignored and getting clicked. ThumbnailGo was created to remove the guesswork and turn proven design principles into automated, intelligent visuals.
+              In today's crowded creator economy, first impressions decide everything. A strong thumbnail can be the difference between getting ignored and getting clicked. PromtToThumb was created to remove the guesswork and turn proven design principles into automated, intelligent visuals.
             </p>
             <p>
               Our AI analyzes composition, color contrast, facial focus, text placement, and visual hierarchy to help you generate thumbnails that naturally attract attention in YouTube feeds and recommendations.
             </p>
             <p>
-              Whether you're a full-time YouTuber, a growing creator, a brand, or a marketing team, ThumbnailGo helps you publish faster, stay visually consistent, and increase click-through rates - without slowing down your workflow.
+              Whether you're a full-time YouTuber, a growing creator, a brand, or a marketing team, PromtToThumb helps you publish faster, stay visually consistent, and increase click-through rates - without slowing down your workflow.
             </p>
           </motion.div>
           

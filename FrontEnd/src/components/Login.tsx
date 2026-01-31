@@ -22,7 +22,7 @@ const Login = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="w-full sm:w-87.5 text-center bg-white/6 border border-white/10 rounded-2xl px-8"
+        className=" mx-auto mt-[10%] w-full sm:w-87.5 text-center bg-white/6 border border-white/10 rounded-2xl px-8"
       >
         <h1 className="text-white text-3xl mt-10 font-medium">
           {state === "login" ? "Login" : "Sign up"}
