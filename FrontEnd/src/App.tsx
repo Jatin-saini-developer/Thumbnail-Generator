@@ -6,6 +6,7 @@ import "./globals.css";
 import LenisScroll from "./components/LenisScroll";
 import Login from "./components/Login"
 import GeneratePage from "./pages/GeneratePage";
+import AboutPage from "./pages/AboutPage";
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/Generate" element={<GeneratePage />} />
+                <Route path="/About" element={<AboutPage />} />
 
 
             </Routes>

@@ -27,7 +27,7 @@ export default function Navbar() {
                    <Link to="/">Home</Link>
                    <Link to="/Generate">Generate</Link>
                    <Link to="/">My Generation</Link>
-                   <Link to="/">My Contact</Link>
+                   <Link to="/About">About</Link>
                 </div>
 
                 <button className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full"
