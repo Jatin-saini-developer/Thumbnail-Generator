@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
 
-const connectDB = async()=>{
-    mongoose.connect("")
+const connectDB = async () => {
+
+  await mongoose.connect('mongodb+srv://jatinrsaini:djEF55TrowJLgqiQ@cluster0.1svxivg.mongodb.net/ThumbnailGenerator');
 };
 
-connectDB().then(()=>{
-    console.log("DataBase Connected Successfully ");
-    
-}).catch(()=>{
-    console.log("Database Cannot be Connected");
-    
-})
+module.exports = connectDB;
