@@ -8,6 +8,7 @@ import Login from "./components/Login"
 import GeneratePage from "./pages/GeneratePage";
 import AboutPage from "./pages/AboutPage";
 import MyGeneration from "./pages/MyGeneration";
+import TrialPage from "./pages/TrialPage"
 
 export default function App() {
     return (
@@ -20,6 +21,7 @@ export default function App() {
                 <Route path="/Generate" element={<GeneratePage />} />
                 <Route path="/About" element={<AboutPage />} />
                 <Route path="/myGeneration" element={<MyGeneration />} />
+                <Route path="/trial" element={<TrialPage />} />
 
 
             </Routes>
