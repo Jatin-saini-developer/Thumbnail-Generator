@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { featuresData } from "../data/features";
 import type { IFeature } from "../types";
+import { Link } from "react-router-dom";
 
 export default function FeaturesSection() {
   return (
@@ -105,13 +106,13 @@ export default function FeaturesSection() {
               Stop guessing and start ranking. Our AI creates designs proven to
               capture attention.
             </p>
-            <a
-              href="https://prebuiltui.com"
+            <Link
+              to="/login"
               className="group flex items-center gap-2 mt-4 text-pink-600 hover:text-pink-700 transition"
             >
               Start generating free 
               <ArrowUpRight className="size-5 group-hover:translate-x-0.5 transition duration-300" />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>
