@@ -3,6 +3,7 @@ const connectDB = require("./config/Database");
 const User = require("./modals/user")
 const app = express();
 const PORT = process.env.PORT || 3000;
+const bcrypt = require("bcrypt")
 
 app.use(express.json());
 
@@ -12,7 +13,10 @@ app.post('/signUp', async (req, res) => {
     if (!emailId || !password) {
       return res.status(400).json({ message: "emailId and password are required" });
     }
-    const user = new User({ name, emailId, password });
+
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const user = new User({ name, emailId, password : passwordHash });
     await user.save();
     return res.status(201).json({ message: "user added successfully" });
   } catch (err) {
