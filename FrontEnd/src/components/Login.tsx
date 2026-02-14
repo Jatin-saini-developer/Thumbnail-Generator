@@ -50,6 +50,7 @@ const Login = () => {
         );
 
         setMessage(response.data?.message || "Login successful");
+        navigate("/Generate");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -60,7 +61,6 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-    navigate("/Generate")
   };
 
   return (
