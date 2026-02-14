@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../modals/user");
 
 const JWT_SECRET = process.env.JWT_SECRET || "Jatin@33";
+const isProduction = process.env.NODE_ENV === "production";
 
 authRouter.post("/signup", async (req, res) => {
   try {
@@ -62,11 +63,14 @@ authRouter.post("/login", async (req, res) => {
 
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.cookie("token", token, {
+    const cookieOptions = {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-    });
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     return res.status(200).json({
       message: "Login successful",
@@ -85,9 +89,12 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
+  });
   return res.status(200).json({ message: "Logged out successfully" });
 });
 
 module.exports = authRouter;
-
