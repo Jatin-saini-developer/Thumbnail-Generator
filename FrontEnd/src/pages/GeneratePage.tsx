@@ -54,7 +54,7 @@ const GeneratePage = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://thumbnail-generator-hdh4.onrender.com";
   const options = ["16:9", "1:1", "9:16"];
 
   const handleGenerate = async () => {
