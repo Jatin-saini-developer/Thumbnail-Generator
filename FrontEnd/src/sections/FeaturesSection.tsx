@@ -73,7 +73,7 @@ export default function FeaturesSection() {
           >
             <img
               className="h-full w-auto"
-              src="/assets/features-showcase-1.png"
+              src="/assets/Gemini_Generated_Image_eb2c6ueb2c6ueb2c.png"
               alt="features showcase"
               width={1000}
               height={500}

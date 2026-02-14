@@ -1,7 +1,14 @@
 import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [state, setState] = React.useState("login");
+
+  const navigate = useNavigate();
+  
+  const [state, setState] = React.useState<"login" | "register">("login");
+  const [loading, setLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("");
 
   const [formData, setFormData] = React.useState({
     name: "",
@@ -9,13 +16,51 @@ const Login = () => {
     password: "",
   });
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
+    try {
+      if (state === "register") {
+        const response = await axios.post(`${API_BASE_URL}/signup`, {
+          name: formData.name,
+          emailId: formData.email,
+          password: formData.password,
+        });
+
+        setMessage(response.data?.message || "Signup successful. Please login.");
+        setState("login");
+        setFormData((prev) => ({ ...prev, password: "" }));
+      } else {
+        const response = await axios.post(
+          `${API_BASE_URL}/login`,
+          {
+            emailId: formData.email,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        );
+
+        setMessage(response.data?.message || "Login successful");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data?.message || "Request failed");
+      } else {
+        setMessage("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+    navigate("/Generate")
   };
 
   return (
@@ -127,10 +172,15 @@ const Login = () => {
 
         <button
           type="submit"
+          disabled={loading}
           className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition "
         >
-          {state === "login" ? "Login" : "Sign up"}
+          {loading ? "Please wait..." : state === "login" ? "Login" : "Sign up"}
         </button>
+
+        {message && (
+          <p className="text-sm mt-3 text-indigo-300">{message}</p>
+        )}
 
         <p
           onClick={() =>
