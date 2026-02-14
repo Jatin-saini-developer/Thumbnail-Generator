@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../modals/user");
 
-const USER_JWT_SECRET = "Jatin@33";
+const USER_JWT_SECRET = process.env.JWT_SECRET || "Jatin@33";
 
 const userAuth = async (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ const userAuth = async (req, res, next) => {
       return res.status(401).json({ message: "Authentication required" });
     }
 
-    const decodedObj = await jwt.verify(token, USER_JWT_SECRET);
+    const decodedObj = jwt.verify(token, USER_JWT_SECRET);
     const user = await User.findById(decodedObj._id);
 
     if (!user) {
