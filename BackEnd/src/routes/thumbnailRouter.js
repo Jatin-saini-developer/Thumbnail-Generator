@@ -39,6 +39,7 @@ thumbnailRouter.post("/generate", userAuth, async (req, res) => {
       url: imageDataUrl,
       aspectRatio,
       colourScheme,
+      user : req.user._id
     });
 
     return res.status(201).json({
@@ -53,5 +54,22 @@ thumbnailRouter.post("/generate", userAuth, async (req, res) => {
     });
   }
 });
+
+thumbnailRouter.get("/myGeneration", userAuth, async(req, res)=>{
+    try {
+    const thumbnails = await Data.find({ user: req.user._id })
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      thumbnails
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      message: "Failed to fetch thumbnails",
+      error: err.message
+    });
+  }
+})
 
 module.exports = thumbnailRouter;
