@@ -9,7 +9,7 @@ const thumbnailRoutes = require("./routes/thumbnailRouter");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const FRONTEND_URL =
-  (process.env.FRONTEND_URL || "https://thumbnail-generator-uins.vercel.app").trim();
+  (process.env.FRONTEND_URL || "https://thumbnail-generator-uins.vercel.app" || "http://localhost:5173" ).trim();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
