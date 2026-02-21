@@ -5,7 +5,7 @@ const cors = require("cors");
 const connectDB = require("./config/Database");
 const authRoutes = require("./routes/authRouter");
 const thumbnailRoutes = require("./routes/thumbnailRouter");
-
+const profileRouter = require("./routes/profileRouter");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const FRONTEND_URL =

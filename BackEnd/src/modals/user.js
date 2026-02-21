@@ -28,6 +28,10 @@ const userSchema = mongoose.Schema({
       }
     }
   },
+  credits : {
+    type : Number,
+    default : 10
+  }
 });
 
 const User = mongoose.model("User", userSchema);

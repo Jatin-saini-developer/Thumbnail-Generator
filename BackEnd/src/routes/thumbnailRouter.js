@@ -5,12 +5,20 @@ const thumbnailRouter = express.Router();
 const userAuth = require("../middleWares/UserAuth");
 
 const Data = require("../modals/Thumbnail");
+const Transaction = require("../modals/Transaction");
 const { generateImageWithGemini } = require("../services/geminiService");
 
 thumbnailRouter.post("/generate", userAuth, async (req, res) => {
   try {
     const { thumbnailTitle, prompt, aspectRatio, colourScheme } = req.body;
     const safePrompt = typeof prompt === "string" ? prompt.trim() : "";
+    const creditCost = 5;
+
+    if (req.user.credits < creditCost) {
+      return res.status(403).json({
+        message: "Insufficient credits",
+      });
+    }
 
     if (!thumbnailTitle || !aspectRatio || !colourScheme) {
       return res.status(400).json({
@@ -39,7 +47,18 @@ thumbnailRouter.post("/generate", userAuth, async (req, res) => {
       url: imageDataUrl,
       aspectRatio,
       colourScheme,
-      user : req.user._id
+      user: req.user._id,
+    });
+
+    req.user.credits -= creditCost;
+    await req.user.save();
+
+    const transactiondata = await Transaction.create({
+      user: req.user._id,
+      amount: creditCost,
+      type: "debit",
+      reason: "Thumbnail generation",
+      balanceAfter: req.user.credits,
     });
 
     return res.status(201).json({
@@ -55,21 +74,21 @@ thumbnailRouter.post("/generate", userAuth, async (req, res) => {
   }
 });
 
-thumbnailRouter.get("/myGeneration", userAuth, async(req, res)=>{
-    try {
-    const thumbnails = await Data.find({ user: req.user._id })
-      .sort({ createdAt: -1 });
-
-    return res.status(200).json({
-      thumbnails
+thumbnailRouter.get("/myGeneration", userAuth, async (req, res) => {
+  try {
+    const thumbnails = await Data.find({ user: req.user._id }).sort({
+      createdAt: -1,
     });
 
+    return res.status(200).json({
+      thumbnails,
+    });
   } catch (err) {
     return res.status(500).json({
       message: "Failed to fetch thumbnails",
-      error: err.message
+      error: err.message,
     });
   }
-})
+});
 
 module.exports = thumbnailRouter;
