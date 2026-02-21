@@ -53,6 +53,7 @@ const GeneratePage = () => {
   const [previewStatus, setPreviewStatus] = useState<PreviewStatus>("idle");
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "https://thumbnail-generator-hdh4.onrender.com";
   const options = ["16:9", "1:1", "9:16"];
@@ -101,6 +102,26 @@ const GeneratePage = () => {
       }
       setPreviewStatus("error");
       setStatusMessage(message);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!generatedImage || isDownloading) return;
+
+    try {
+      setIsDownloading(true);
+      const response = await fetch(generatedImage);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = `thumbnail-${Date.now()}.png`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -334,11 +355,23 @@ const GeneratePage = () => {
 
             {previewStatus === "success" && generatedImage && (
               <div className="relative z-10 w-full h-full flex flex-col gap-3 items-center justify-center">
-                <img
-                  src={generatedImage}
-                  alt="Generated thumbnail"
-                  className="max-h-[78vh] w-full rounded-xl border border-white/10 object-contain bg-black/30"
-                />
+                <div className="group relative w-full">
+                  <img
+                    src={generatedImage}
+                    alt="Generated thumbnail"
+                    className="max-h-[78vh] w-full rounded-xl border border-white/10 object-contain bg-black/30"
+                  />
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-black/45 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <button
+                      type="button"
+                      onClick={handleDownload}
+                      disabled={isDownloading}
+                      className="pointer-events-auto rounded-lg border border-white/20 bg-white/90 px-4 py-2 text-sm font-semibold text-black transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {isDownloading ? "Downloading..." : "Download"}
+                    </button>
+                  </div>
+                </div>
                 <p className="text-sm text-emerald-300">{statusMessage}</p>
               </div>
             )}

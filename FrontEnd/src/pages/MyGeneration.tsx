@@ -63,7 +63,7 @@ const MyGeneration = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 mt-11 mt sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+    <div className="grid grid-cols-1 mt-18 min-h-screen sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
       {thumbnail.map((item) => (
         <div
           key={item._id}
