@@ -23,6 +23,7 @@ app.use(
 
 app.use("/", authRoutes);
 app.use("/", thumbnailRoutes);
+app.use("/",profileRouter);
 
 connectDB()
   .then(() => {
