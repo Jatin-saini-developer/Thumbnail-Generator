@@ -5,9 +5,15 @@ import { navlinks } from "../data/navlinks";
 import type { INavLink } from "../types";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "../Redux/store";
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+
 
   return (
     <>
@@ -30,6 +36,12 @@ export default function Navbar() {
           <Link to="/myGeneration">My Generation</Link>
           <Link to="/About">About</Link>
         </div>
+
+        {user && (
+          <div className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 font-semibold text-sm">
+            {user.credits} Credits
+          </div>
+        )}
 
         <button
           className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full"

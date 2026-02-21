@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { updateCredits } from "../Redux/slices/authSlice"; 
 
 type PreviewStatus = "idle" | "loading" | "success" | "error";
 
@@ -18,11 +20,36 @@ type ColorScheme = {
 };
 
 const styles: StyleOption[] = [
-  { id: "bold", title: "Bold & Graphic", desc: "High contrast, bold typography", icon: "*" },
-  { id: "minimal", title: "Minimalist", desc: "Clean, simple, whitespace", icon: "O" },
-  { id: "photo", title: "Photorealistic", desc: "Photo-based, natural looking", icon: "[]"},
-  { id: "illustrated", title: "Illustrated", desc: "Hand-drawn, artistic, creative", icon: "/" },
-  { id: "tech", title: "Tech/Futuristic", desc: "Modern, sleek, tech-inspired", icon: "#" },
+  {
+    id: "bold",
+    title: "Bold & Graphic",
+    desc: "High contrast, bold typography",
+    icon: "*",
+  },
+  {
+    id: "minimal",
+    title: "Minimalist",
+    desc: "Clean, simple, whitespace",
+    icon: "O",
+  },
+  {
+    id: "photo",
+    title: "Photorealistic",
+    desc: "Photo-based, natural looking",
+    icon: "[]",
+  },
+  {
+    id: "illustrated",
+    title: "Illustrated",
+    desc: "Hand-drawn, artistic, creative",
+    icon: "/",
+  },
+  {
+    id: "tech",
+    title: "Tech/Futuristic",
+    desc: "Modern, sleek, tech-inspired",
+    icon: "#",
+  },
 ];
 
 const colorSchemes: ColorScheme[] = [
@@ -37,8 +64,18 @@ const colorSchemes: ColorScheme[] = [
 ];
 
 const models = [
-  { id: "basic", name: "Basic Model", credits: 5, description: "Fast generation, standard quality" },
-  { id: "premium", name: "Premium Model", credits: 10, description: "High detail, complex lighting" },
+  {
+    id: "basic",
+    name: "Basic Model",
+    credits: 5,
+    description: "Fast generation, standard quality",
+  },
+  {
+    id: "premium",
+    name: "Premium Model",
+    credits: 10,
+    description: "High detail, complex lighting",
+  },
 ];
 
 const GeneratePage = () => {
@@ -55,7 +92,11 @@ const GeneratePage = () => {
   const [statusMessage, setStatusMessage] = useState("");
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://thumbnail-generator-hdh4.onrender.com";
+  const dispatch = useDispatch();
+
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://thumbnail-generator-hdh4.onrender.com";
   const options = ["16:9", "1:1", "9:16"];
 
   const handleGenerate = async () => {
@@ -68,7 +109,9 @@ const GeneratePage = () => {
     setPreviewStatus("loading");
     setStatusMessage("");
 
-    const extraContext = [selectedStyle.title, prompt.trim()].filter(Boolean).join(". ");
+    const extraContext = [selectedStyle.title, prompt.trim()]
+      .filter(Boolean)
+      .join(". ");
 
     try {
       const response = await axios.post(
@@ -80,7 +123,7 @@ const GeneratePage = () => {
           colourScheme: selectedColor.name,
           model: selectedModel.id,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const imageUrl = response.data?.imageUrl || response.data?.thumbnail?.url;
@@ -91,6 +134,10 @@ const GeneratePage = () => {
       setGeneratedImage(imageUrl);
       setPreviewStatus("success");
       setStatusMessage("Thumbnail generated successfully.");
+
+      if (response.data?.remainingCredits !== undefined) {
+        dispatch(updateCredits(response.data.remainingCredits));
+      }
     } catch (error) {
       let message = "Failed to generate thumbnail";
       if (axios.isAxiosError(error)) {
@@ -141,8 +188,12 @@ const GeneratePage = () => {
           <div className="space-y-6">
             <div className="space-y-3">
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-neutral-300">Title or Topic</label>
-                <span className="text-xs text-neutral-500">{title.length}/100</span>
+                <label className="text-sm font-medium text-neutral-300">
+                  Title or Topic
+                </label>
+                <span className="text-xs text-neutral-500">
+                  {title.length}/100
+                </span>
               </div>
               <input
                 type="text"
@@ -155,7 +206,9 @@ const GeneratePage = () => {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-neutral-300">Aspect Ratio</label>
+              <label className="text-sm font-medium text-neutral-300">
+                Aspect Ratio
+              </label>
               <div className="grid grid-cols-3 gap-3">
                 {options.map((option) => (
                   <button
@@ -175,7 +228,9 @@ const GeneratePage = () => {
             </div>
 
             <div className="space-y-3 relative z-30">
-              <label className="text-sm font-medium text-neutral-300">Visual Style</label>
+              <label className="text-sm font-medium text-neutral-300">
+                Visual Style
+              </label>
               <div className="relative">
                 <button
                   type="button"
@@ -185,11 +240,19 @@ const GeneratePage = () => {
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{selectedStyle.icon}</span>
                     <div>
-                      <p className="text-sm font-medium text-white">{selectedStyle.title}</p>
-                      <p className="text-xs text-neutral-400">{selectedStyle.desc}</p>
+                      <p className="text-sm font-medium text-white">
+                        {selectedStyle.title}
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        {selectedStyle.desc}
+                      </p>
                     </div>
                   </div>
-                  <span className={`text-neutral-500 transition-transform ${styleOpen ? "rotate-180" : ""}`}>v</span>
+                  <span
+                    className={`text-neutral-500 transition-transform ${styleOpen ? "rotate-180" : ""}`}
+                  >
+                    v
+                  </span>
                 </button>
 
                 <AnimatePresence>
@@ -209,13 +272,19 @@ const GeneratePage = () => {
                             setStyleOpen(false);
                           }}
                           className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
-                            selectedStyle.id === style.id ? "bg-white/10" : "hover:bg-white/5"
+                            selectedStyle.id === style.id
+                              ? "bg-white/10"
+                              : "hover:bg-white/5"
                           }`}
                         >
                           <span className="text-xl">{style.icon}</span>
                           <div>
-                            <p className="text-sm font-medium text-white">{style.title}</p>
-                            <p className="text-xs text-neutral-400">{style.desc}</p>
+                            <p className="text-sm font-medium text-white">
+                              {style.title}
+                            </p>
+                            <p className="text-xs text-neutral-400">
+                              {style.desc}
+                            </p>
                           </div>
                         </button>
                       ))}
@@ -226,7 +295,9 @@ const GeneratePage = () => {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-medium text-neutral-300">Color Palette</label>
+              <label className="text-sm font-medium text-neutral-300">
+                Color Palette
+              </label>
               <div className="grid grid-cols-4 sm:grid-cols-4 gap-3">
                 {colorSchemes.map((scheme) => (
                   <button
@@ -241,19 +312,26 @@ const GeneratePage = () => {
                   >
                     <div className="flex h-full w-full">
                       {scheme.colors.map((color, idx) => (
-                        <div key={idx} className="flex-1" style={{ backgroundColor: color }} />
+                        <div
+                          key={idx}
+                          className="flex-1"
+                          style={{ backgroundColor: color }}
+                        />
                       ))}
                     </div>
                   </button>
                 ))}
               </div>
               <p className="text-xs text-neutral-500 text-right">
-                Selected: <span className="text-white">{selectedColor.name}</span>
+                Selected:{" "}
+                <span className="text-white">{selectedColor.name}</span>
               </p>
             </div>
 
             <div className="space-y-3 relative z-20">
-              <label className="text-sm font-medium text-neutral-300">AI Model</label>
+              <label className="text-sm font-medium text-neutral-300">
+                AI Model
+              </label>
               <div className="relative">
                 <button
                   type="button"
@@ -261,12 +339,18 @@ const GeneratePage = () => {
                   className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left hover:border-white/20 transition-all"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-white">{selectedModel.name}</span>
+                    <span className="text-sm font-medium text-white">
+                      {selectedModel.name}
+                    </span>
                     <span className="rounded-full bg-pink-500/10 px-2 py-0.5 text-[10px] font-semibold text-pink-500 border border-pink-500/20">
                       {selectedModel.credits} credits
                     </span>
                   </div>
-                  <span className={`text-neutral-500 transition-transform ${modelOpen ? "rotate-180" : ""}`}>v</span>
+                  <span
+                    className={`text-neutral-500 transition-transform ${modelOpen ? "rotate-180" : ""}`}
+                  >
+                    v
+                  </span>
                 </button>
 
                 <AnimatePresence>
@@ -286,14 +370,22 @@ const GeneratePage = () => {
                             setModelOpen(false);
                           }}
                           className={`flex w-full items-center justify-between px-4 py-3 text-left transition-colors ${
-                            selectedModel.id === model.id ? "bg-white/10" : "hover:bg-white/5"
+                            selectedModel.id === model.id
+                              ? "bg-white/10"
+                              : "hover:bg-white/5"
                           }`}
                         >
                           <div>
-                            <p className="text-sm font-medium text-white">{model.name}</p>
-                            <p className="text-xs text-neutral-500">{model.description}</p>
+                            <p className="text-sm font-medium text-white">
+                              {model.name}
+                            </p>
+                            <p className="text-xs text-neutral-500">
+                              {model.description}
+                            </p>
                           </div>
-                          <span className="text-xs font-mono text-neutral-400">{model.credits}c</span>
+                          <span className="text-xs font-mono text-neutral-400">
+                            {model.credits}c
+                          </span>
                         </button>
                       ))}
                     </motion.div>
@@ -304,7 +396,8 @@ const GeneratePage = () => {
 
             <div className="space-y-3">
               <label className="text-sm font-medium text-neutral-300">
-                Additional Context <span className="text-neutral-600 font-normal">(Optional)</span>
+                Additional Context{" "}
+                <span className="text-neutral-600 font-normal">(Optional)</span>
               </label>
               <textarea
                 value={prompt}
@@ -320,7 +413,9 @@ const GeneratePage = () => {
               onClick={handleGenerate}
               className="group w-full rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 py-4 font-semibold text-white shadow-lg shadow-pink-900/20 transition-all hover:shadow-pink-900/40 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {previewStatus === "loading" ? "Generating..." : "Generate Thumbnail"}
+              {previewStatus === "loading"
+                ? "Generating..."
+                : "Generate Thumbnail"}
             </button>
           </div>
         </div>
@@ -335,9 +430,12 @@ const GeneratePage = () => {
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-inner">
                     <span className="text-3xl">*</span>
                   </div>
-                  <h3 className="text-xl font-medium text-white">Preview Mode</h3>
+                  <h3 className="text-xl font-medium text-white">
+                    Preview Mode
+                  </h3>
                   <p className="text-sm text-neutral-400 leading-relaxed">
-                    Fill in the details on the left to see your AI-generated thumbnail preview appear here.
+                    Fill in the details on the left to see your AI-generated
+                    thumbnail preview appear here.
                   </p>
                 </div>
                 <div className="absolute bottom-6 right-6 text-xs font-mono text-neutral-600 border border-white/5 px-2 py-1 rounded bg-black/20">
