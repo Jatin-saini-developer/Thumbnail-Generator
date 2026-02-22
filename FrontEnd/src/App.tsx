@@ -14,6 +14,8 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser} from "./Redux/slices/authSlice";
 import type { AppDispatch } from "./Redux/store";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsServicePage from "./pages/TermsServicePage";
 
 export default function App() {
   const API_BASE_URL =
@@ -46,6 +48,9 @@ export default function App() {
         <Route path="/About" element={<AboutPage />} />
         <Route path="/myGeneration" element={<MyGeneration />} />
         <Route path="/trial" element={<TrialPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsServicePage />} />
+
       </Routes>
       <Footer />
     </>

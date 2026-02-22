@@ -23,8 +23,8 @@ export const footerData: IFooter[] = [
     {
         title: "Legal",
         links: [
-            { name: "Privacy", href: "#privacy" },
-            { name: "Terms", href: "#terms" },
+            { name: "Privacy", href: "/privacy" },
+            { name: "Terms", href: "/terms" },
         ]
     }
 ];
