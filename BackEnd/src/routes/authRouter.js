@@ -65,8 +65,8 @@ authRouter.post("/login", async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     };
 
