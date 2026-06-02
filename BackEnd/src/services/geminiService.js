@@ -1,14 +1,8 @@
-// const MODEL_CANDIDATES = [
-//   process.env.GEMINI_MODEL,
-//   "gemini-2.5-flash-image",
-//   "gemini-3-pro-image-preview",
-// ].filter(Boolean);
-
 const MODEL_CANDIDATES = [
-  "gemini-2.5-flash"
-];
-
-
+  process.env.GEMINI_MODEL,
+  "gemini-2.5-flash-image",
+  "gemini-3-pro-image-preview",
+].filter(Boolean);
 
 const extractImage = (responseData) => {
   const candidates = responseData?.candidates || [];
